@@ -4,17 +4,16 @@ import axios from "axios";
 import argentBankLogo from '../img/argentBankLogo.png'
 
 export default function SignIn() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const login = async(e) => {
     e.preventDefault()
-    console.log(username, password);
-    const response = await axios.post("http://localhost:3001/api/v1/user/login", {"username": username, "password": password});
-    if (response.data.token) {
-      localStorage.setItem("token", response.data.token);
-      window.location.href = "/";
-      console.log(response.data.token);
+    console.log(email, password);
+    const response = await axios.post("http://localhost:3001/api/v1/user/login", {"email": email, "password": password}, { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json'});
+    if (response.data.body.token) {
+      localStorage.setItem("token", response.data.body.token);
+      window.location.href = "/user";
     } else {
       console.log("bad email or bad password");
     }
@@ -45,7 +44,7 @@ export default function SignIn() {
           <form action="/login" method="post">
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" onChange={(e) => setUsername(e.target.value)}/>
+              <input type="email" id="username" onChange={(e) => setEmail(e.target.value)}/>
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>

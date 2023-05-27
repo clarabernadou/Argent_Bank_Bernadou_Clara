@@ -2,11 +2,15 @@ import React from 'react';
 import argentBankLogo from '../img/argentBankLogo.png'
 
 export default function UserPage() {
-
+  const logout = async(e) => {
+    e.preventDefault()
+    localStorage.clear();
+    window.location.href = "/";
+  }
   return (
     <div>
       <nav className="main-nav">
-        <a className="main-nav-logo" href="./">
+        <a className="main-nav-logo" href="" onClick={logout}>
           <img
             className="main-nav-logo-image"
             src={argentBankLogo}
@@ -19,7 +23,7 @@ export default function UserPage() {
             <i className="fa fa-user-circle"></i>
             Tony
           </a>
-          <a className="main-nav-item" href="./">
+          <a className="main-nav-item" href="" onClick={logout}>
             <i className="fa fa-sign-out"></i>
             Sign Out
           </a>
