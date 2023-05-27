@@ -25,6 +25,7 @@
     "server": "node ./server/server.js"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
     "nodemon": "^2.0.4"
   }
 }
