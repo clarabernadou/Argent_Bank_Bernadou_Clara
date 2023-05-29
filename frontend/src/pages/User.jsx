@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser } from '../reducers/userReducer';
+
 import argentBankLogo from '../img/argentBankLogo.png'
 
+const logout = async(e) => {
+  e.preventDefault()
+  localStorage.clear();
+  window.location.href = "/";
+}
+
 export default function UserPage() {
-  const logout = async(e) => {
-    e.preventDefault()
-    localStorage.clear();
-    window.location.href = "/";
-  }
+  const { firstName, lastName } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('token')
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const response = await axios.post('http://localhost:3001/api/v1/user/profile', {}, config);
+      const userData = response.data.body;
+      dispatch(setUser(userData));
+    };
+    fetchUserData();
+  }, [dispatch]);
+
   return (
     <div>
       <nav className="main-nav">
@@ -19,7 +42,7 @@ export default function UserPage() {
           <h1 className="sr-only">Argent Bank</h1>
         </a>
         <div>
-          <a className="main-nav-item" href="./user">
+          <a className="main-nav-item" href="./profile">
             <i className="fa fa-user-circle"></i>
             Tony
           </a>
@@ -31,7 +54,7 @@ export default function UserPage() {
       </nav>
       <main className="main bg-dark">
         <div className="header">
-          <h1>Welcome back<br />Tony Jarvis!</h1>
+          <h1>Welcome back<br />{firstName} {lastName}!</h1>
           <button className="edit-button">Edit Name</button>
         </div>
         <h2 className="sr-only">Accounts</h2>
