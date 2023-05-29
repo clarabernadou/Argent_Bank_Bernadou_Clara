@@ -5,7 +5,7 @@ import store from "./store";
 import "./main.css";
 
 import SignIn from "./pages/SignIn";
-import UserPage from "./pages/User";
+import ProfilePage from "./pages/Profile";
 import Home from "./pages/Home";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={token ? <Navigate to="/profile" /> : <Home />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/profile" element={<UserPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
