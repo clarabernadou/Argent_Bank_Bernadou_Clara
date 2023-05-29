@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../reducers/userReducer';
 
 import MainNav from '../components/mainNav';
+import Footer from '../components/Footer';
 
 export default function UserPage() {
   const { firstName, lastName } = useSelector(state => state.user);
@@ -63,9 +64,7 @@ export default function UserPage() {
           </div>
         </section>
       </main>
-      <footer className="footer">
-        <p className="footer-text">Copyright 2020 Argent Bank</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
