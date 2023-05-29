@@ -13,7 +13,7 @@ export default function SignIn() {
     const response = await axios.post("http://localhost:3001/api/v1/user/login", {"email": email, "password": password}, { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json'});
     if (response.data.body.token) {
       localStorage.setItem("token", response.data.body.token);
-      window.location.href = "/user";
+      window.location.href = "/profile";
     } else {
       console.log("bad email or bad password");
     }
