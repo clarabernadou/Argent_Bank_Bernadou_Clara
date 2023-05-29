@@ -3,25 +3,17 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../reducers/userReducer';
 
-import argentBankLogo from '../img/argentBankLogo.png'
-
-const logout = async(e) => {
-  e.preventDefault()
-  localStorage.clear();
-  sessionStorage.clear();
-  window.location.href = "/";
-}
+import MainNav from '../components/mainNav';
 
 export default function UserPage() {
   const { firstName, lastName } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
   useEffect(() => {
     const fetchUserData = async () => {
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
         }
       };
       const response = await axios.post('http://localhost:3001/api/v1/user/profile', {}, config);
@@ -33,26 +25,7 @@ export default function UserPage() {
 
   return (
     <div>
-      <nav className="main-nav">
-        <a className="main-nav-logo" href="" onClick={logout}>
-          <img
-            className="main-nav-logo-image"
-            src={argentBankLogo}
-            alt="Argent Bank Logo"
-          />
-          <h1 className="sr-only">Argent Bank</h1>
-        </a>
-        <div>
-          <a className="main-nav-item" href="./profile">
-            <i className="fa fa-user-circle"></i>
-            Tony
-          </a>
-          <a className="main-nav-item" href="" onClick={logout}>
-            <i className="fa fa-sign-out"></i>
-            Sign Out
-          </a>
-        </div>
-      </nav>
+      <MainNav />
       <main className="main bg-dark">
         <div className="header">
           <h1>Welcome back<br />{firstName} {lastName}!</h1>
