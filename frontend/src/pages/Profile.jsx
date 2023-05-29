@@ -1,37 +1,15 @@
-import React, { useEffect } from 'react';
-import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../reducers/userReducer';
+import React from 'react';
 
 import MainNav from '../components/mainNav';
 import Footer from '../components/Footer';
+import Header from '../components/ProfilePage/Header';
 
 export default function UserPage() {
-  const { firstName, lastName } = useSelector(state => state.user);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
-        }
-      };
-      const response = await axios.post('http://localhost:3001/api/v1/user/profile', {}, config);
-      const userData = response.data.body;
-      dispatch(setUser(userData));
-    };
-    fetchUserData();
-  }, [dispatch]);
-
   return (
     <div>
       <MainNav />
       <main className="main bg-dark">
-        <div className="header">
-          <h1>Welcome back<br />{firstName} {lastName}!</h1>
-          <button className="edit-button">Edit Name</button>
-        </div>
+        <Header />
         <h2 className="sr-only">Accounts</h2>
         <section className="account">
           <div className="account-content-wrapper">
