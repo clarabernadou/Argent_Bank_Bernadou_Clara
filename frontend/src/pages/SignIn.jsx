@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 import MainNav from "../components/mainNav";
+import Footer from "../components/Footer";
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -51,9 +52,7 @@ export default function SignIn() {
           </form>
         </section>
       </main>
-      <footer className="footer">
-        <p className="footer-text">Copyright 2020 Argent Bank</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
