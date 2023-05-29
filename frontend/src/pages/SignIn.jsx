@@ -6,18 +6,28 @@ import argentBankLogo from '../img/argentBankLogo.png'
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
-  const login = async(e) => {
-    e.preventDefault()
-    console.log(email, password);
-    const response = await axios.post("http://localhost:3001/api/v1/user/login", {"email": email, "password": password}, { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json'});
+  const login = async (e) => {
+    e.preventDefault();
+
+    console.log(isChecked);
+  
+    const response = await axios.post(
+      "http://localhost:3001/api/v1/user/login",
+      { email: email, password: password },
+      { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
+    );
+  
     if (response.data.body.token) {
-      localStorage.setItem("token", response.data.body.token);
+      if (isChecked) {
+        localStorage.setItem("token", response.data.body.token);
+      } else {
+        sessionStorage.setItem("token", response.data.body.token);
+      }
       window.location.href = "/profile";
-    } else {
-      console.log("bad email or bad password");
     }
-  }
+  };  
 
   return (
     <div>
@@ -51,7 +61,7 @@ export default function SignIn() {
               <input type="password" id="password" onChange={(e) => setPassword(e.target.value)}/>
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
+              <input type="checkbox" id="remember-me" onChange={(e) => setIsChecked(e.target.checked)} />
               <label htmlFor="remember-me">Remember me</label>
             </div>
             {/* PLACEHOLDER DUE TO STATIC SITE */}

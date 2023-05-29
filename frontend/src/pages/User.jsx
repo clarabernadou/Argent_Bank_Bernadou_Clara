@@ -8,13 +8,14 @@ import argentBankLogo from '../img/argentBankLogo.png'
 const logout = async(e) => {
   e.preventDefault()
   localStorage.clear();
+  sessionStorage.clear();
   window.location.href = "/";
 }
 
 export default function UserPage() {
   const { firstName, lastName } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
   useEffect(() => {
     const fetchUserData = async () => {
