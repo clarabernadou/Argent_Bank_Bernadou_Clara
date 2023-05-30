@@ -259,23 +259,19 @@ body {
   padding: 10px;
 }
 
-.edit-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.input-container,
+.button-container {
+  margin-bottom: 1em;
 }
 
-.edit-form .input-container,
-.edit-form .button-container {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 1em;
-  gap: 1em;
+.input-container input {
+  margin: 0 0.5em;
+  height: 2em;
 }
 
 .form-button {
   width: 80px;
+  margin: 0 0.5em;
 }
 
 .header {
