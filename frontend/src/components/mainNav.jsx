@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../reducers/userReducer';
 import argentBankLogo from "../img/argentBankLogo.png";
@@ -9,7 +9,7 @@ const logout = (e) => {
   e.preventDefault();
   localStorage.clear();
   sessionStorage.clear();
-  window.location.href = "/";
+  return <Navigate to="/" />;
 };
 
 export default function MainNav() {
@@ -30,7 +30,6 @@ export default function MainNav() {
         const userData = response.data.body;
         dispatch(setUser(userData));
       } catch (error) {
-        // Gérer les erreurs de requête ici
         console.log(error);
       }
     };

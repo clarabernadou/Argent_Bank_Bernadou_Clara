@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Form() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isChecked, setIsChecked] = useState(false);
-  
+    const navigate = useNavigate();
+    
     const login = async (e) => {
       e.preventDefault();
     
@@ -21,7 +23,8 @@ export default function Form() {
         } else {
           sessionStorage.setItem("token", response.data.body.token);
         }
-        window.location.href = "/profile";
+        
+        navigate('/profile');
       }
     };  
   return (
