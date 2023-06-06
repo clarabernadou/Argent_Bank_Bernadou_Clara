@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from "react-router-dom"
+import React, { useEffect } from 'react';
 import axios from "axios";
-import argentBankLogo from "../img/argentBankLogo.png";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../reducers/userReducer';
+import argentBankLogo from "../img/argentBankLogo.png";
 
 const logout = (e) => {
   e.preventDefault();
@@ -25,13 +25,20 @@ export default function MainNav() {
           'Authorization': `Bearer ${token}`
         }
       };
-      const response = await axios.post('http://localhost:3001/api/v1/user/profile', {}, config);
-      const userData = response.data.body;
-      dispatch(setUser(userData));
+      try {
+        const response = await axios.post('http://localhost:3001/api/v1/user/profile', {}, config);
+        const userData = response.data.body;
+        dispatch(setUser(userData));
+      } catch (error) {
+        // Gérer les erreurs de requête ici
+        console.log(error);
+      }
     };
 
-    fetchUserData();
-  }, [dispatch]);
+    if (pathname === "/profile") {
+      fetchUserData();
+    }
+  }, [dispatch, pathname]);
 
   if (pathname === "/" || pathname === "/sign-in") {
     return (
