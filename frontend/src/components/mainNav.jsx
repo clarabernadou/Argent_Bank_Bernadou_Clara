@@ -1,21 +1,22 @@
 import React, { useEffect } from 'react';
 import axios from "axios";
-import { Link, useLocation, Navigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../reducers/userReducer';
 import argentBankLogo from "../img/argentBankLogo.png";
-
-const logout = (e) => {
-  e.preventDefault();
-  localStorage.clear();
-  sessionStorage.clear();
-  return <Navigate to="/" />;
-};
 
 export default function MainNav() {
   const { pathname } = useLocation();
   const { firstName } = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate('/');
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
