@@ -1,25 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import userReducer from './reducers/userReducer';
 
-const persistConfig = {
-  key: 'user',
-  storage,
+const loadTokenFromStorage = () => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const isChecked = !!token;
+  return { token, isChecked };
 };
-
-const persistedReducer = persistReducer(persistConfig, userReducer);
 
 const store = configureStore({
   reducer: {
-    user: persistedReducer,
+    user: userReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+  preloadedState: {
+    user: loadTokenFromStorage(),
+  },
 });
 
-const persistor = persistStore(store);
-
-export { store, persistor };
+export { store };
