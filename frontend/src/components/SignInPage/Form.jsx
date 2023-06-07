@@ -5,27 +5,31 @@ import { setToken } from '../../reducers/userReducer';
 import axios from "axios";
 
 export default function Form() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isChecked, setIsChecked] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    
-    const login = async (e) => {
-      e.preventDefault();
-    
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const login = async (e) => {
+    e.preventDefault();
+  
+    try {
       const response = await axios.post(
         "http://localhost:3001/api/v1/user/login",
         { email: email, password: password },
-        { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
+        { headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } }
       );
-    
+  
       if (response.data.body.token) {
         const token = response.data.body.token;
-        dispatch(setToken(token));
+        dispatch(setToken({ token: token, isChecked: isChecked }));
         navigate('/profile');
       }
-    };  
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
