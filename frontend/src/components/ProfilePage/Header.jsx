@@ -26,12 +26,6 @@ export default function Header() {
     fetchUserData();
   }, [dispatch]);
 
-  useEffect(() => {
-      if (!isChecked) {
-        window.addEventListener('beforeunload', dispatch(deleteToken()));
-      }
-  }, [isChecked, dispatch]);
-
   const handleEditClick = () => {
     setEditedFirstName(firstName);
     setEditedLastName(lastName);

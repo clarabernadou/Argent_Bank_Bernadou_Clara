@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import axios from "axios";
 import { setUser, deleteToken } from '../reducers/userReducer';
-import { persistor } from '../store';
 
 import argentBankLogo from "../img/argentBankLogo.png";
 
@@ -13,12 +12,10 @@ export default function MainNav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const logout = (e) => {
+  const logout = async (e) => {
     e.preventDefault();
     dispatch(deleteToken());
-    persistor.purge().then(() => {
-      navigate('/');
-    });
+    navigate('/');
   };
 
   useEffect(() => {
@@ -45,7 +42,7 @@ export default function MainNav() {
   if (pathname === "/" || pathname === "/sign-in") {
     return (
       <nav className="main-nav">
-        <Link className="main-nav-logo" to="/">
+        <Link className="main-nav-logo" to="/" onClick={logout}>
           <img
             className="main-nav-logo-image"
             src={argentBankLogo}
@@ -66,7 +63,7 @@ export default function MainNav() {
   if (pathname === "/profile") {
     return (
       <nav className="main-nav">
-        <Link className="main-nav-logo" to="/">
+        <Link className="main-nav-logo" to="/" onClick={logout}>
           <img
             className="main-nav-logo-image"
             src={argentBankLogo}

@@ -23,9 +23,15 @@ export default function Form() {
   
       if (response.data.body.token) {
         const token = response.data.body.token;
+
+        if (isChecked) {
+          localStorage.setItem('token', token);
+        } else {
+          sessionStorage.setItem('token', token);
+        }
         dispatch(setToken({ token: token, isChecked: isChecked }));
         navigate('/profile');
-      }
+      }           
     } catch (error) {
       console.log(error);
     }

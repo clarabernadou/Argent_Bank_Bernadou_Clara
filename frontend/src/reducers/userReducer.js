@@ -1,12 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-
-const persistConfig = {
-  key: 'user',
-  storage,
-  blacklist: ['register'],
-};
 
 const userSlice = createSlice({
   name: 'user',
@@ -30,12 +22,12 @@ const userSlice = createSlice({
     deleteToken: (state) => {
       state.token = null;
       state.isChecked = false;
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
     },
   },
 });
 
-const persistedUserReducer = persistReducer(persistConfig, userSlice.reducer);
-
 export const { setUser, setToken, deleteToken } = userSlice.actions;
 
-export default persistedUserReducer;
+export default userSlice.reducer;
