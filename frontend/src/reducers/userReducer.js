@@ -1,12 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+const persistConfig = {
+  key: 'user',
+  storage,
+  blacklist: ['register'],
+};
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
     firstName: '',
     lastName: '',
-    token: Cookies.get('token'),
+    token: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -17,13 +24,14 @@ const userSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    deleteToken: (state, action) => {
-      state.token = '';
-      Cookies.remove('token');
-    }    
+    deleteToken: (state) => {
+      state.token = null;
+    },
   },
 });
 
+const persistedUserReducer = persistReducer(persistConfig, userSlice.reducer);
+
 export const { setUser, setToken, deleteToken } = userSlice.actions;
 
-export default userSlice.reducer;
+export default persistedUserReducer;

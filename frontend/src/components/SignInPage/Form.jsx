@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../reducers/userReducer';
 import axios from "axios";
 
 export default function Form() {
@@ -7,6 +9,7 @@ export default function Form() {
     const [password, setPassword] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     
     const login = async (e) => {
       e.preventDefault();
@@ -18,12 +21,8 @@ export default function Form() {
       );
     
       if (response.data.body.token) {
-        if (isChecked) {
-          localStorage.setItem("token", response.data.body.token);
-        } else {
-          sessionStorage.setItem("token", response.data.body.token);
-        }
-        
+        const token = response.data.body.token;
+        dispatch(setToken(token));
         navigate('/profile');
       }
     };  

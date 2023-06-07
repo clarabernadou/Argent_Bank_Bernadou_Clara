@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./store";
+import { store, persistor } from "./store";
+import { PersistGate } from 'redux-persist/integration/react';
 import "./main.css";
 
 import SignIn from "./pages/SignIn";
@@ -13,13 +14,15 @@ function App() {
 
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={token ? <Navigate to="/profile" /> : <Home />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Routes>
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={token ? <Navigate to="/profile" /> : <Home />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 }
