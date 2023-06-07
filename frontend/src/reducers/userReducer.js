@@ -14,6 +14,7 @@ const userSlice = createSlice({
     firstName: '',
     lastName: '',
     token: null,
+    isChecked: false,
   },
   reducers: {
     setUser: (state, action) => {
@@ -22,10 +23,13 @@ const userSlice = createSlice({
       state.lastName = lastName;
     },
     setToken: (state, action) => {
-      state.token = action.payload;
+      const { token, isChecked } = action.payload;
+      state.token = token;
+      state.isChecked = isChecked;
     },
     deleteToken: (state) => {
       state.token = null;
+      state.isChecked = false;
     },
   },
 });
