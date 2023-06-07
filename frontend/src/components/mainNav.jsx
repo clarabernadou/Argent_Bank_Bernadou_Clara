@@ -1,26 +1,28 @@
 import React, { useEffect } from 'react';
-import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../reducers/userReducer';
+import axios from "axios";
+import { setUser, deleteToken } from '../reducers/userReducer';
+import { persistor } from '../store';
+
 import argentBankLogo from "../img/argentBankLogo.png";
 
 export default function MainNav() {
   const { pathname } = useLocation();
-  const { firstName } = useSelector(state => state.user);
+  const { firstName, token } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logout = (e) => {
     e.preventDefault();
-    localStorage.clear();
-    sessionStorage.clear();
-    navigate('/');
+    dispatch(deleteToken());
+    persistor.purge().then(() => {
+      navigate('/');
+    });
   };
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       const config = {
         headers: {
           'Authorization': `Bearer ${token}`

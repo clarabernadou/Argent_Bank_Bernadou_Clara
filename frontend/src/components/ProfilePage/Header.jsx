@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../../reducers/userReducer';
 
 export default function Header() {
-  const { firstName, lastName } = useSelector(state => state.user);
+  const { firstName, lastName, token } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const [editing, setEditing] = useState(false);
@@ -13,7 +13,6 @@ export default function Header() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       const config = {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -34,7 +33,6 @@ export default function Header() {
   };
 
   const handleSaveClick = async () => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const config = {
       headers: {
         'Authorization': `Bearer ${token}`
