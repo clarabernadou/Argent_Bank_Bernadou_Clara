@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../../reducers/userReducer';
+import { setUser, deleteToken } from '../../reducers/userReducer';
 
 export default function Header() {
-  const { firstName, lastName, token } = useSelector(state => state.user);
+  const { firstName, lastName, token, isChecked } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const [editing, setEditing] = useState(false);
@@ -25,6 +25,12 @@ export default function Header() {
 
     fetchUserData();
   }, [dispatch]);
+
+  useEffect(() => {
+      if (!isChecked) {
+        window.addEventListener('beforeunload', dispatch(deleteToken()));
+      }
+  }, [isChecked, dispatch]);
 
   const handleEditClick = () => {
     setEditedFirstName(firstName);
