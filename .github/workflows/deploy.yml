@@ -37,6 +37,9 @@ jobs:
           cp ../demo/demo-api.js build/
           sed -i 's|</head>|<script src="/Argent_Bank_Bernadou_Clara/demo-api.js"></script></head>|' build/index.html
           cp build/index.html build/404.html
+          mkdir build/api-docs
+          cp ../api-docs/index.html build/api-docs/
+          cp ../backend/swagger.yaml build/api-docs/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/build
